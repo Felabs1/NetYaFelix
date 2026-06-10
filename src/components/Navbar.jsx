@@ -63,10 +63,10 @@ const Navbar = () => {
           </Link>
           <ul className="hidden md:flex gap-5 text-sm">
             <li><Link to="/" className="hover:text-gray-300 transition">Home</Link></li>
-            <li><Link to="/" className="hover:text-gray-300 transition">TV Shows</Link></li>
-            <li><Link to="/" className="hover:text-gray-300 transition">Movies</Link></li>
-            <li><Link to="/" className="hover:text-gray-300 transition">New & Popular</Link></li>
-            <li><Link to="/" className="hover:text-gray-300 transition">My List</Link></li>
+            <li><Link to="/?browse=tv" className="hover:text-gray-300 transition">TV Shows</Link></li>
+            <li><Link to="/?browse=movies" className="hover:text-gray-300 transition">Movies</Link></li>
+            <li><Link to="/?browse=trending" className="hover:text-gray-300 transition">New & Popular</Link></li>
+            <li><Link to="/?browse=mylist" className="hover:text-gray-300 transition">My List</Link></li>
           </ul>
         </div>
 

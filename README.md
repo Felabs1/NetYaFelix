@@ -116,7 +116,7 @@ All API requests are routed through `src/services/tmdb.js`, which reads the key 
 
 The app calls these TMDB endpoints:
 
-- `GET /discover/tv` — Netflix Originals
+- `GET /discover/tv` — NYF Originals
 - `GET /trending/all/week` — Trending content
 - `GET /movie/top_rated` — Top-rated movies
 - `GET /discover/movie?with_genres=X` — Genre-filtered movie lists

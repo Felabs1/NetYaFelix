@@ -29,6 +29,9 @@ const HeroBanner = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const navigate = useNavigate();
   const nextTimeoutRef = useRef(null);
+  const poolRef = useRef([]);
+  const indexRef = useRef(0);
+  const trailerRef = useRef(null);
 
   const movie = moviePool[currentIndex];
   const trailer = movie?.trailer;
@@ -63,7 +66,9 @@ const HeroBanner = () => {
 
         if (!cancelled && pool.length > 0) {
           setMoviePool(pool);
+          poolRef.current = pool;
           setCurrentIndex(0);
+          indexRef.current = 0;
           nextTimeoutRef.current = setTimeout(() => {
             setShowVideo(true);
             setAutoPlaying(true);
@@ -77,23 +82,29 @@ const HeroBanner = () => {
     return () => { cancelled = true; clearTimeout(nextTimeoutRef.current); };
   }, []);
 
+  // Keep refs in sync
+  useEffect(() => { poolRef.current = moviePool; }, [moviePool]);
+  useEffect(() => { indexRef.current = currentIndex; }, [currentIndex]);
+  useEffect(() => { trailerRef.current = trailer; }, [trailer]);
+
   // Advance to next movie after a random 3-5s delay
   const scheduleNext = useCallback(() => {
     clearTimeout(nextTimeoutRef.current);
-    if (moviePool.length <= 1) return;
+    if (poolRef.current.length <= 1) return;
     const delay = 3000 + Math.random() * 2000;
     nextTimeoutRef.current = setTimeout(() => {
-      const nextIndex = (currentIndex + 1) % moviePool.length;
+      const nextIndex = (indexRef.current + 1) % poolRef.current.length;
       // Fade out, swap video, fade back in
       setIsTransitioning(true);
       setTimeout(() => {
         setCurrentIndex(nextIndex);
+        indexRef.current = nextIndex;
         setTimeout(() => {
           setIsTransitioning(false);
         }, 400);
       }, 500);
     }, delay);
-  }, [currentIndex, moviePool.length]);
+  }, []);
 
   // Called by YouTubePlayer when a video ends
   const handleVideoEnd = useCallback(() => {
